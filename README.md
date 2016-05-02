@@ -9,6 +9,21 @@ dependencies {
 }
 ```
 
+## Usage
+
+````
+<be.appfoundry.sampleapp.progressbutton.ProgressButton
+        android:id="@+id/progressButton"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        progressbutton:fillColor="#ffcd3a3a"
+        progressbutton:progressColor="@color/colorPrimary"
+        progressbutton:strokeWidth="10dp"
+        progressbutton:strokeColor="#FF1010"
+        progressbutton:progressIcon="@drawable/ic_settings_remote_white_36dp"
+        android:layout_gravity="center"/>
+```
+
 ## License
 ```
 Licensed under the Apache License, Version 2.0 (the "License");
