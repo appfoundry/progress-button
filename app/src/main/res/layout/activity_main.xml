@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:progressbutton="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="be.appfoundry.progressbutton.MainActivity">
+
+    <!--be.appfoundry.testapp.progressbutton.ProgressButton
+        android:id="@+id/progressButton"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        progressbutton:fillColor="#ffcd3a3a"
+        progressbutton:progressColor="@color/colorPrimary"
+        progressbutton:strokeWidth="10dp"
+        progressbutton:strokeColor="#FF1010"
+        progressbutton:progressIcon="@drawable/ic_settings_remote_white_36dp"
+        android:layout_gravity="center"/>
+
+    <be.appfoundry.testapp.progressbutton.ProgressButton
+        android:id="@+id/progressButton2"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        progressbutton:fillColor="#0000EE"
+        progressbutton:progressColor="#009999"
+        progressbutton:strokeWidth="30dp"
+        progressbutton:strokeColor="#121299"
+        android:layout_gravity="center"
+        android:layout_marginTop="80dp"/-->
+
+</RelativeLayout>

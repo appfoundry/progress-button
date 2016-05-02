@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ProgressButton">
+        <attr name="fillColor" format="color" />
+        <attr name="indeterminate" format="boolean" />
+        <attr name="progressColor" format="color" />
+        <attr name="strokeColor" format="color" />
+        <attr name="strokeWidth" format="dimension" />
+        <attr name="progressIcon" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="CircleView">
+        <attr name="radius" format="integer" />
+        <attr name="innerColor" format="color" />
+        <attr name="outerColor" format="color" />
+    </declare-styleable>
+</resources>
