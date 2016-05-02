@@ -8,15 +8,6 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true">
 
-        <be.appfoundry.progressbutton.CircleView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="48dp"
-            android:minHeight="48dp"
-            android:id="@+id/circle_view"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
-
         <ImageView android:id="@+id/icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

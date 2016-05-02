@@ -2,13 +2,16 @@ package be.appfoundry.progressbutton;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
+import android.view.View;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
-    //@Bind(R.id.progressButton) ProgressButton progressButton;
-    //@Bind(R.id.progressButton2) ProgressButton progressButton2;
+    @Bind(R.id.progressButton) ProgressButton progressButton;
+    @Bind(R.id.progressButton2) ProgressButton progressButton2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        /*progressButton.setIndeterminate(true);
+        progressButton.setIndeterminate(true);
         progressButton.setAnimationStep(3);
         progressButton.setAnimationDelay(0);
 
@@ -58,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return true;
             }
-        });*/
+        });
 
     }
 }

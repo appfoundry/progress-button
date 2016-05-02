@@ -10,7 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="be.appfoundry.progressbutton.MainActivity">
 
-    <!--be.appfoundry.testapp.progressbutton.ProgressButton
+    <be.appfoundry.progressbutton.ProgressButton
         android:id="@+id/progressButton"
         android:layout_width="120dp"
         android:layout_height="120dp"
@@ -18,10 +18,9 @@
         progressbutton:progressColor="@color/colorPrimary"
         progressbutton:strokeWidth="10dp"
         progressbutton:strokeColor="#FF1010"
-        progressbutton:progressIcon="@drawable/ic_settings_remote_white_36dp"
         android:layout_gravity="center"/>
 
-    <be.appfoundry.testapp.progressbutton.ProgressButton
+    <be.appfoundry.progressbutton.ProgressButton
         android:id="@+id/progressButton2"
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -30,6 +29,6 @@
         progressbutton:strokeWidth="30dp"
         progressbutton:strokeColor="#121299"
         android:layout_gravity="center"
-        android:layout_marginTop="80dp"/-->
+        android:layout_marginTop="80dp"/>
 
 </RelativeLayout>
