@@ -10,14 +10,14 @@ ext {
 
     libraryDescription = 'A circular progress button for Android'
 
-    siteUrl = 'https://github.com/appfoundry/ProgressButton'
-    gitUrl = 'https://github.com/appfoundry/ProgressButton.git'
+    siteUrl = 'https://github.com/appfoundry/progress-button'
+    gitUrl = 'https://github.com/appfoundry/progress-button.git'
 
     libraryVersion = '0.9.1'
 
     developerId = 'appfoundry'
     developerName = 'AppFoundry'
-    developerEmail = ''
+    developerEmail = 'info@appfoundry.be'
 
     licenseName = 'The Apache Software License, Version 2.0'
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
