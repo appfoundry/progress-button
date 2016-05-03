@@ -65,6 +65,46 @@ Example view implementation:
     progressbutton:indeterminate="true"
     ```
 
+Code example:
+```
+    progressButton.setIndeterminate(true);
+    progressButton.setAnimationStep(3);
+    progressButton.setAnimationDelay(0);
+
+    progressButton.setOnTouchListener(new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    progressButton.startAnimating();
+                    break;
+                case MotionEvent.ACTION_UP:
+                    progressButton.stopAnimating();
+                    break;
+            }
+            return true;
+        }
+    });
+```
+
+* **setIndeterminate(boolean isIndeterminate)** - Set whether the button is indeterminate or determinate.
+
+    ```
+    progressButton.setIndeterminate(true);
+    ```
+    
+* **setAnimationStep(float animationStep)** - Set the amount of progress for each animation step.
+
+    ```
+    progressButton.setAnimationStep(3);
+    ```
+
+* **setAnimationDelay(float animationStep)** - Set the delay in milliseconds after each animation step to determine the speed of the animation.
+
+    ```
+    progressButton.setAnimationDelay(0);
+    ```
+
 ## License
 ```
 Licensed under the Apache License, Version 2.0 (the "License");
