@@ -105,6 +105,19 @@ Code example:
     ```
     progressButton.setAnimationDelay(0);
     ```
+    
+* **startAnimating()** - Start the indeterminate progress animation.
+
+    ```
+    progressButton.startAnimating();
+    ```
+    
+* **stopAnimating()** - Stop the indeterminate progress animation.
+
+    ```
+    progressButton.stopAnimating();
+    ```
+    
 
 ## License
 ```
