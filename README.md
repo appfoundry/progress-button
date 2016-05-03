@@ -4,7 +4,7 @@ A circular progress button for Android
 ![](screenshots/screenshot.gif)
 
 ## Integration
-
+Gradle:
 ```
 dependencies {
     compile 'be.appfoundry.progressbuttonlibrary.progress-button:0.9.1'
@@ -12,10 +12,11 @@ dependencies {
 ```
 
 ## Usage
-See sample app
+See sample app included in the project.
 
+Example view implementation:
 ````
-<be.appfoundry.sampleapp.progressbutton.ProgressButton
+<be.appfoundry.progressbutton.ProgressButton
         android:id="@+id/progressButton"
         android:layout_width="120dp"
         android:layout_height="120dp"
@@ -26,6 +27,26 @@ See sample app
         progressbutton:progressIcon="@drawable/ic_settings_remote_white_36dp"
         android:layout_gravity="center"/>
 ```
+* **fillColor** - Set the background color of the button.
+    ```
+    progressbutton:fillColor="#ffcd3a3a"
+    ```
+* **progressColor** - Set the color of the progress indicator.
+    ```
+    progressbutton:progressColor="@color/colorPrimary"
+    ```
+* **strokeColor** - Set the color of the border.
+    ```
+    progressbutton:strokeColor="#FF1010"
+    ```
+* **strokeWidth** - Set the border width.
+    ```
+    progressbutton:strokeWidth="10dp"
+    ```
+* **progressIcon** - Set an icon on the button.
+    ```
+    progressbutton:progressIcon="@drawable/ic_settings_remote_white_36dp"
+    ```
 
 ## License
 ```
