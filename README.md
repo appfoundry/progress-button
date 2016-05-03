@@ -1,6 +1,8 @@
 # ProgressButton
 A circular progress button for Android
 
+![](screenshots/screenshot.gif)
+
 ## Integration
 
 ```
