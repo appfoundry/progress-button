@@ -7,11 +7,12 @@ A circular progress button for Android
 
 ```
 dependencies {
-    compile 'be.appfoundry.progressbuttonlibrary.progress-button:1.0'
+    compile 'be.appfoundry.progressbuttonlibrary.progress-button:0.9.1'
 }
 ```
 
 ## Usage
+See sample app
 
 ````
 <be.appfoundry.sampleapp.progressbutton.ProgressButton
