@@ -4,18 +4,18 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.widget.FrameLayout;
+import android.view.View;
+import android.view.ViewGroup;
 
 import be.appfoundry.progressbutton.util.LayoutUtil;
 
-public class ProgressButton extends FrameLayout {
-
-    //private ImageView imageView;
+public class ProgressButton extends View {
 
     private int color;
     private int strokeColor;
@@ -33,7 +33,6 @@ public class ProgressButton extends FrameLayout {
     private float startDegrees = 270;
     private int animationDelay = 0;
 
-    private float stroke;
     private boolean indeterminate;
 
     private Paint circlePaint = new Paint();
@@ -50,38 +49,29 @@ public class ProgressButton extends FrameLayout {
         }
     };
 
-    RectF mTempRectF = new RectF();
+    RectF buttonRectF = new RectF();
+    Rect iconRect = new Rect();
 
 
     public ProgressButton(Context context) {
         this(context,null);
-        //if(!isInEditMode()) {
-            init(context, null);
-        //}
+        init(context, null);
     }
 
     public ProgressButton(Context context, AttributeSet attrs) {
         this(context, attrs,0);
-        //if(!isInEditMode()) {
-            init(context, attrs);
-        //}
+        init(context, attrs);
     }
 
     public ProgressButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        //if(!isInEditMode()) {
-            init(context, attrs);
-        //}
+        init(context, attrs);
     }
 
     private void init(Context context, AttributeSet attrs) {
-        //View view = LayoutInflater.from(getContext()).inflate(R.layout.progress_button, this, true);
-
         circlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         progressPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         strokePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-
-        //imageView = (ImageView) findViewById(R.id.icon);
 
         TypedArray attr = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ProgressButton, 0, 0);
 
@@ -99,10 +89,7 @@ public class ProgressButton extends FrameLayout {
 
             isIndeterminate = attr.getBoolean(R.styleable.ProgressButton_indeterminate, true);
 
-            //radius = attr.getInteger(R.styleable.CircleView_radius, 0);
-
             icon = attr.getDrawable(R.styleable.ProgressButton_progressIcon);
-            setIcon(icon);
         } finally {
             attr.recycle();
         }
@@ -148,8 +135,11 @@ public class ProgressButton extends FrameLayout {
 
     public void setIcon(Drawable icon) {
         this.icon = icon;
-        //imageView.setBackground(icon);
         invalidate();
+    }
+
+    public float getAnimationStep() {
+        return animationStep;
     }
 
     public void setAnimationStep(float animationStep) {
@@ -171,11 +161,11 @@ public class ProgressButton extends FrameLayout {
     }
 
     public float getStroke() {
-        return stroke;
+        return strokeWidth;
     }
 
     public void setStroke(float stroke) {
-        this.stroke = stroke;
+        this.strokeWidth = stroke;
         invalidate();
         requestLayout();
     }
@@ -250,18 +240,18 @@ public class ProgressButton extends FrameLayout {
 
         if (radius > 0) {
             size = (int) (radius * 2);
-        } else if (getLayoutParams().width == LayoutParams.MATCH_PARENT && getLayoutParams().height == LayoutParams.MATCH_PARENT) {
+        } else if (getLayoutParams().width == ViewGroup.LayoutParams.MATCH_PARENT && getLayoutParams().height == ViewGroup.LayoutParams.MATCH_PARENT) {
             size = resolved_width;
             if (size > resolved_height) size = resolved_height;
-        } else if (getLayoutParams().width == LayoutParams.MATCH_PARENT && getLayoutParams().height != LayoutParams.MATCH_PARENT) {
+        } else if (getLayoutParams().width == ViewGroup.LayoutParams.MATCH_PARENT && getLayoutParams().height != ViewGroup.LayoutParams.MATCH_PARENT) {
             size = resolved_height;
-        } else if (getLayoutParams().height == LayoutParams.MATCH_PARENT && getLayoutParams().width != LayoutParams.MATCH_PARENT) {
+        } else if (getLayoutParams().height == ViewGroup.LayoutParams.MATCH_PARENT && getLayoutParams().width != ViewGroup.LayoutParams.MATCH_PARENT) {
             size = resolved_width;
-        } else if (getLayoutParams().width == LayoutParams.WRAP_CONTENT && getLayoutParams().height == LayoutParams.WRAP_CONTENT) {
+        } else if (getLayoutParams().width == ViewGroup.LayoutParams.WRAP_CONTENT && getLayoutParams().height == ViewGroup.LayoutParams.WRAP_CONTENT) {
             size = (int) LayoutUtil.convertDpToPixel(this.getContext(), 48);
-        } else if (getLayoutParams().width == LayoutParams.WRAP_CONTENT && getLayoutParams().height != LayoutParams.WRAP_CONTENT) {
+        } else if (getLayoutParams().width == ViewGroup.LayoutParams.WRAP_CONTENT && getLayoutParams().height != ViewGroup.LayoutParams.WRAP_CONTENT) {
             size = resolved_height;
-        } else if (getLayoutParams().height == LayoutParams.WRAP_CONTENT && getLayoutParams().width != LayoutParams.WRAP_CONTENT) {
+        } else if (getLayoutParams().height == ViewGroup.LayoutParams.WRAP_CONTENT && getLayoutParams().width != ViewGroup.LayoutParams.WRAP_CONTENT) {
             size = resolved_width;
         } else if (width > height) {
             size = resolved_height;
@@ -293,14 +283,18 @@ public class ProgressButton extends FrameLayout {
         float top = (getHeight() / 2) - radius;
         float bottom = (getHeight() / 2) + radius;
 
-        mTempRectF.set(left, top, right, bottom);
+        buttonRectF.set(left, top, right, bottom);
 
         canvas.drawCircle(getWidth() / 2, getWidth() / 2, radius, strokePaint);
-        canvas.drawArc(mTempRectF, startDegrees, degrees, true, progressPaint);
-        canvas.drawCircle(getWidth() / 2, getWidth() / 2, radius - stroke, circlePaint);
+        canvas.drawArc(buttonRectF, startDegrees, degrees, true, progressPaint);
+        canvas.drawCircle(getWidth() / 2, getWidth() / 2, radius - strokeWidth, circlePaint);
 
-        icon.setBounds((int)left, (int)top, (int)right, (int)bottom);
-        icon.draw(canvas);
+        if (icon != null) {
+            iconRect.set(0, 0, (int)radius, (int)radius);
+            iconRect.offset((getWidth() - (int)radius) / 2, (getHeight() - (int)radius) / 2);
+            icon.setBounds(iconRect);
+            icon.draw(canvas);
+        }
     }
 
     public void startAnimating() {
