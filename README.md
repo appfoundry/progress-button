@@ -1,18 +1,19 @@
 # ProgressButton
-A circular progress button for Android
+A circular progress button for Android that you can use to show indeterminate of determinate progress.
 
 ![](screenshots/screenshot.gif)
 
 ## Integration
+
 Gradle:
-```
+```groovy
 dependencies {
     compile 'be.appfoundry.progressbuttonlibrary.progress-button:0.9.1'
 }
 ```
 
 ## Usage
-See sample app included in the project.
+In the project you can find a sample app where the use of the button is demonstrated for indeterminate and determinate progress.
 
 Example view implementation:
 ```
