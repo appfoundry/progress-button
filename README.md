@@ -1,11 +1,11 @@
 # ProgressButton
--------
+
 A circular progress button for Android that you can use to show indeterminate of determinate progress.
 
 ![](screenshots/screenshot.gif)
 
 ## Integration
--------
+
 Gradle:
 ```groovy
 dependencies {
@@ -14,7 +14,7 @@ dependencies {
 ```
 
 ## Usage
--------
+
 In the project you can find a sample app where the use of the button is demonstrated for indeterminate and determinate progress.
 
 Example view implementation:
@@ -145,7 +145,7 @@ Code example:
     ```
             
 ## License
--------
+
 ```
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
