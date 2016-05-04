@@ -144,6 +144,36 @@ Code example:
     progressButton.setIcon(getResources().getDrawable(R.drawable.icon));
     ```
             
+* **setRadius(float radius)** - Set the radius of the button.
+
+    ```
+    progressButton.setRadius(70f);
+    ```
+            
+* **setStroke(float radius)** - Set the stroke width of the button.
+
+    ```
+    progressButton.setStroke(10f);
+    ```
+           
+* **setColor(int color)** - Set the background color of the button.
+
+    ```
+    progressButton.setColor(Color.parseColor("#117700"));
+    ```
+          
+* **setStrokeColor(int color)** - Set the stroke color of the button.
+
+    ```
+    progressButton.setStrokeColor(Color.parseColor("#007777"));
+    ```
+      
+* **setProgressColor(int color)** - Set the color of the progress indicator.
+
+    ```
+    progressButton.setProgressColor(Color.parseColor("#007777"));
+    ```
+      
 ## License
 
 ```
