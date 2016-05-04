@@ -118,7 +118,30 @@ Code example:
     progressButton.stopAnimating();
     ```
     
+* **setMaxProgress(float maxProgress)** - Set the maximum progress value for determinate progress.
 
+    ```
+    progressButton.setMaxProgress(10.0f);
+    ```
+    
+* **setProgress(float animationStep)** - Set the progress value for determinate progress.
+
+    ```
+    progressButton.setProgress(5.0f);
+    ```
+        
+* **setStartDegrees(float degrees)** - Set the starting point for the progress indicator. (0 for left, 90 for bottom, ...)
+
+    ```
+    progressButton.setStartDegrees(270);
+    ```
+    
+* **setIcon(Drawable icon)** - Set icon on the button.
+
+    ```
+    progressButton.setIcon(getResources().getDrawable(R.drawable.icon));
+    ```
+            
 ## License
 ```
 Licensed under the Apache License, Version 2.0 (the "License");
