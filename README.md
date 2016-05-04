@@ -14,7 +14,7 @@ dependencies {
 ## Usage
 See sample app
 
-````
+```
 <be.appfoundry.sampleapp.progressbutton.ProgressButton
         android:id="@+id/progressButton"
         android:layout_width="120dp"

@@ -19,10 +19,12 @@
         progressbutton:strokeWidth="10dp"
         progressbutton:strokeColor="#FF1010"
         progressbutton:progressIcon="@mipmap/ic_launcher"
+        progressbutton:indeterminate="true"
         android:layout_gravity="center"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="66dp" />
+        android:layout_marginTop="66dp"
+        android:elevation="8dp"/>
 
     <be.appfoundry.progressbutton.ProgressButton
         android:id="@+id/progressButton2"
@@ -32,9 +34,11 @@
         progressbutton:progressColor="#009999"
         progressbutton:strokeWidth="30dp"
         progressbutton:strokeColor="#121299"
+        progressbutton:indeterminate="false"
         android:layout_gravity="center"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="124dp" />
+        android:layout_marginBottom="124dp"
+        android:elevation="16dp"/>
 
 </RelativeLayout>

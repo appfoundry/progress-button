@@ -50,3 +50,76 @@ dependencies {
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+
+
+apply plugin: 'pmd'
+
+check.dependsOn 'pmd'
+
+task pmd(type: Pmd) {
+
+    description "Generate PMD reports for this build"
+
+    ignoreFailures true    // Ignores failing build on warning. If not set build will fail on warning.
+
+    ruleSets = [
+            "java-basic",
+            "java-braces",
+            "java-naming",
+            "java-android",
+            "java-codesize",
+            "java-design",
+            "java-finalizers",
+            "java-junit",
+            "java-optimizations",
+            "java-strictexception",
+            "java-strings",
+            "java-unusedcode"
+    ]
+
+    source 'src'          // Specify the source code. The script should be applied to
+    include '**/*.java'   // the module build.gradle so the 'src' folder resides at the same level
+    exclude '**/gen/**'   // include / exclude folders and files.
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+
+apply plugin: 'findbugs'
+
+check.dependsOn 'findbugs'
+
+task findbugs(type: FindBugs) {
+
+    description 'Generate FindBugs reports for this build'
+
+    ignoreFailures true
+
+    //Higher levels increase precision and find more bugs at the expense of running time and memory consumption.
+    effort = 'max'
+    //The priority threshold for reporting bugs. If set to {@code low}, all bugs are reported.
+    reportLevel = 'low'
+
+    //Define path to classes
+    classes = fileTree("${project.rootDir}/app/build/intermediates/classes") //path to compiled class files
+
+    source 'src'          // Specify the source code. The script should be applied to
+    include '**/*.java'   // the module build.gradle so the 'src' folder resides at the same level
+    exclude '**/gen/**'   // include / exclude folders and files.
+
+    //Define exclude config file
+    //excludeFilter = file("${rootProject.projectDir}/gradle/config/findbugs/exclude.xml")
+
+    //IMPORTANT: FINDBUGS CAN ONLY GENERATE 1 REPORT. XML OR HTML!! AND PATH MUST BE DEFINED!!
+    reports {
+        xml.enabled = false
+        html.enabled = true
+        xml.destination = "$project.buildDir/reports/findbugs/findbugs-output.xml"
+        html.destination = "$project.buildDir/reports/findbugs/findbugs-output.html"
+    }
+
+    classpath = files()
+}

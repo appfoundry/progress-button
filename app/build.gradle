@@ -29,5 +29,5 @@ dependencies {
     compile 'io.reactivex:rxjava:1.0.14'
 
     compile project(':progressbutton')
-    //compile 'be.appfoundry.progressbuttonlibrary:progressbutton:0.9'
+    //compile 'be.appfoundry.progressbuttonlibrary:progressbutton:0.9.1'
 }
