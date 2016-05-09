@@ -24,17 +24,12 @@ dependencies {
 
 ## Usage
 
-<<<<<<< HEAD
-```
-<be.appfoundry.sampleapp.progressbutton.ProgressButton
-=======
 In the project you can find a sample app where the use of the button is demonstrated for indeterminate and determinate progress.
 For a complete overview of al the view attributes and methods, [click here](README2.md).
 
 Example view implementation:
 ```
 <be.appfoundry.progressbutton.ProgressButton
->>>>>>> c4863e566b0422bfceb57f8277e656e89591c5b4
         android:id="@+id/progressButton"
         android:layout_width="120dp"
         android:layout_height="120dp"
