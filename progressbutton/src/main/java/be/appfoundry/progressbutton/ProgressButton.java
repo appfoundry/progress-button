@@ -28,6 +28,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.ColorInt;
+import android.support.annotation.IdRes;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -43,6 +45,13 @@ import be.appfoundry.progressbutton.util.CircularOutline;
  */
 public class ProgressButton extends View {
 
+    private static final float DEFAULT_MAX_PROGRESS = 100;
+    private static final float DEFAULT_ANIMATION_STEP = 1.0f;
+    private static final int DEFAULT_START_DEGREES = 270;
+    private static final int DEFAULT_ANIMATION_DELAY = 0;
+    private static final int MAX_DEGREES = 360;
+    private static final int MIN_SIZE = 48;
+
     /** The background color of the button. */
     private int color;
     /** The stroke color of the button. */
@@ -51,9 +60,9 @@ public class ProgressButton extends View {
     private int progressColor;
     private float strokeWidth;
     /** The maximum progress. Defaults to 100. */
-    private float maxProgress = 100f;
+    private float maxProgress = DEFAULT_MAX_PROGRESS;
     /** The value for each animation step. Defaults to 1 */
-    private float animationStep = 1.0f;
+    private float animationStep = DEFAULT_ANIMATION_STEP;
     /** Sets the button indeterminate or determinate. Defaults to true. */
     private boolean indeterminate;
     /** Sets the direction of the progress indicator. */
@@ -67,11 +76,11 @@ public class ProgressButton extends View {
     /** indicates if the indeterminate progress animation is running. Defaults to false. */
     private boolean isAnimating = false;
     /** The starting position for the progress indicator. */
-    private float startDegrees = 270;
+    private float startDegrees = DEFAULT_START_DEGREES;
     /** The current starting point of the progress animation. */
-    private float startingPoint = 270;
+    private float startingPoint = DEFAULT_START_DEGREES;
     /** Delay between animation frames. Defaults to 0. */
-    private int animationDelay = 0;
+    private int animationDelay = DEFAULT_ANIMATION_DELAY;
     /** The Paint for the inner circle. */
     private Paint circlePaint;
     /** The Paint for the progress indicator. */
@@ -89,12 +98,12 @@ public class ProgressButton extends View {
 
 
     public ProgressButton(Context context) {
-        this(context,null);
+        this(context, null);
         init(context, null);
     }
 
     public ProgressButton(Context context, AttributeSet attrs) {
-        this(context, attrs,0);
+        this(context, attrs, 0);
         init(context, attrs);
     }
 
@@ -120,29 +129,25 @@ public class ProgressButton extends View {
         progressPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         strokePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-        TypedArray attr = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ProgressButton, 0, 0);
+        TypedArray attr = context.getTheme()
+                .obtainStyledAttributes(attrs, R.styleable.ProgressButton, 0, 0);
 
         try {
             color = attr.getColor(R.styleable.ProgressButton_fillColor, 0xFFFFFFFF);
             circlePaint.setColor(color);
-
             strokeColor = attr.getColor(R.styleable.ProgressButton_strokeColor, 0xFFFFFFFF);
             strokePaint.setColor(strokeColor);
-
             progressColor = attr.getColor(R.styleable.ProgressButton_progressColor, 0xFFFFFFFF);
             progressPaint.setColor(progressColor);
-
             strokeWidth = attr.getDimension(R.styleable.ProgressButton_strokeWidth, 0f);
-
             indeterminate = attr.getBoolean(R.styleable.ProgressButton_indeterminate, true);
-
             icon = attr.getDrawable(R.styleable.ProgressButton_progressIcon);
         } finally {
             attr.recycle();
         }
     }
 
-    /** Returns true if the progress is indeterminate. **/
+    /** Returns true if the progress is indeterminate. */
     public boolean isIndeterminate() {
         return indeterminate;
     }
@@ -171,10 +176,16 @@ public class ProgressButton extends View {
     /** Sets the current progress. (must be between 0 and maxProgress) */
     public void setProgress(float progress) {
         if (progress > maxProgress || progress < 0) {
-            throw new IllegalArgumentException(String.format(Locale.getDefault(), "Progress (%d) must be between %d and %d", progress, 0, maxProgress));
+            throw new IllegalArgumentException(String.format(
+                    Locale.getDefault(),
+                    "Progress (%d) must be between %d and %d",
+                    progress,
+                    0,
+                    maxProgress
+            ));
         }
         this.progress = progress;
-        degrees = 360 * progress / maxProgress;
+        degrees = MAX_DEGREES * progress / maxProgress;
         invalidate();
     }
 
@@ -196,7 +207,7 @@ public class ProgressButton extends View {
     }
 
     /** Sets the button icon. */
-    public void setIcon(Drawable icon) {
+    public void setIcon(@IdRes Drawable icon) {
         this.icon = icon;
         invalidate();
     }
@@ -207,7 +218,7 @@ public class ProgressButton extends View {
     }
 
     /** Sets the background color of the button. */
-    public void setColor(int color) {
+    public void setColor(@ColorInt int color) {
         this.color = color;
         circlePaint.setColor(color);
         invalidate();
@@ -219,7 +230,7 @@ public class ProgressButton extends View {
     }
 
     /** Sets the stroke color. */
-    public void setStrokeColor(int strokeColor) {
+    public void setStrokeColor(@ColorInt int strokeColor) {
         this.strokeColor = strokeColor;
         strokePaint.setColor(strokeColor);
         invalidate();
@@ -231,7 +242,7 @@ public class ProgressButton extends View {
     }
 
     /** Sets the color of the progress indicator. */
-    public void setProgressColor(int progressColor) {
+    public void setProgressColor(@ColorInt int progressColor) {
         this.progressColor = progressColor;
         progressPaint.setColor(progressColor);
         invalidate();
@@ -269,13 +280,13 @@ public class ProgressButton extends View {
     }
 
     /** Returns the stroke width. */
-    public float getStroke() {
+    public float getStrokeWidth() {
         return strokeWidth;
     }
 
     /** Sets the stroke width. */
-    public void setStroke(float stroke) {
-        this.strokeWidth = stroke;
+    public void setStrokeWidth(float strokeWidth) {
+        this.strokeWidth = strokeWidth;
         invalidate();
     }
 
@@ -286,68 +297,98 @@ public class ProgressButton extends View {
         int width = getLayoutParams().width;
         int height = getLayoutParams().height;
 
-        int get_width = getWidth();
-        int get_height = getHeight();
+        int getWidth = getWidth();
+        int getHeight = getHeight();
 
-        int resolved_width = resolveSize(get_width, widthMeasureSpec);
-        int resolved_height = resolveSize(get_height, heightMeasureSpec);
+        int resolvedWidth = resolveSize(getWidth, widthMeasureSpec);
+        int resolvedHeight = resolveSize(getHeight, heightMeasureSpec);
 
-        int size;
-
-        if (radius > 0) {
-            size = (int) (radius * 2);
-        } else if (getLayoutParams().width == ViewGroup.LayoutParams.MATCH_PARENT && getLayoutParams().height == ViewGroup.LayoutParams.MATCH_PARENT) {
-            size = resolved_width;
-            if (size > resolved_height) size = resolved_height;
-        } else if (getLayoutParams().width == ViewGroup.LayoutParams.MATCH_PARENT && getLayoutParams().height != ViewGroup.LayoutParams.MATCH_PARENT) {
-            size = resolved_height;
-        } else if (getLayoutParams().height == ViewGroup.LayoutParams.MATCH_PARENT && getLayoutParams().width != ViewGroup.LayoutParams.MATCH_PARENT) {
-            size = resolved_width;
-        } else if (getLayoutParams().width == ViewGroup.LayoutParams.WRAP_CONTENT && getLayoutParams().height == ViewGroup.LayoutParams.WRAP_CONTENT) {
-            size = (int) convertDpToPixel(this.getContext(), 48);
-        } else if (getLayoutParams().width == ViewGroup.LayoutParams.WRAP_CONTENT && getLayoutParams().height != ViewGroup.LayoutParams.WRAP_CONTENT) {
-            size = resolved_height;
-        } else if (getLayoutParams().height == ViewGroup.LayoutParams.WRAP_CONTENT && getLayoutParams().width != ViewGroup.LayoutParams.WRAP_CONTENT) {
-            size = resolved_width;
-        } else if (width > height) {
-            size = resolved_height;
-        } else if (width < height) {
-            size = resolved_width;
-        } else {
-            if (resolved_height == 0) {
-                size = width;
-                if (size > resolved_width) size = resolved_width;
-            } else if (resolved_width == 0) {
-                size = height;
-                if (size > resolved_height) size = resolved_height;
-            } else {
-                size = resolved_width;
-                if (size > resolved_height) size = resolved_height;
-            }
-        }
+        int size = calculateSize(resolvedWidth, resolvedHeight, width, height);
 
         setMeasuredDimension(size, size);
     }
 
+    /** Calculate the size of the progressbutton */
+    private int calculateSize(int resolvedWidth, int resolvedHeight, int width, int height) {
+        int size;
+
+        if (radius > 0) {
+            size = (int) (radius * 2);
+        } else if (getLayoutParams().width == ViewGroup.LayoutParams.MATCH_PARENT
+                && getLayoutParams().height == ViewGroup.LayoutParams.MATCH_PARENT) {
+            size = resolvedWidth;
+            if (size > resolvedHeight) {
+                size = resolvedHeight;
+            }
+        } else if (getLayoutParams().width == ViewGroup.LayoutParams.MATCH_PARENT
+                && getLayoutParams().height != ViewGroup.LayoutParams.MATCH_PARENT) {
+            size = resolvedHeight;
+        } else if (getLayoutParams().height == ViewGroup.LayoutParams.MATCH_PARENT
+                && getLayoutParams().width != ViewGroup.LayoutParams.MATCH_PARENT) {
+            size = resolvedWidth;
+        } else if (getLayoutParams().width == ViewGroup.LayoutParams.WRAP_CONTENT
+                && getLayoutParams().height == ViewGroup.LayoutParams.WRAP_CONTENT) {
+            size = (int) convertDpToPixel(this.getContext(), MIN_SIZE);
+        } else if (getLayoutParams().width == ViewGroup.LayoutParams.WRAP_CONTENT
+                && getLayoutParams().height != ViewGroup.LayoutParams.WRAP_CONTENT) {
+            size = resolvedHeight;
+        } else if (getLayoutParams().height == ViewGroup.LayoutParams.WRAP_CONTENT
+                && getLayoutParams().width != ViewGroup.LayoutParams.WRAP_CONTENT) {
+            size = resolvedWidth;
+        } else if (width > height) {
+            size = resolvedHeight;
+        } else if (width < height) {
+            size = resolvedWidth;
+        } else {
+            size = calculateDefaultSize(resolvedWidth, resolvedHeight, width, height);
+        }
+
+        return size;
+    }
+
+    /** Calculate the default size of the progressbutton */
+    private int calculateDefaultSize(int resolvedWidth, int resolvedHeight, int width, int height) {
+        int size;
+        if (resolvedHeight == 0) {
+            size = width;
+            if (size > resolvedWidth) {
+                size = resolvedWidth;
+            }
+        } else if (resolvedWidth == 0) {
+            size = height;
+            if (size > resolvedHeight) {
+                size = resolvedHeight;
+            }
+        } else {
+            size = resolvedWidth;
+            if (size > resolvedHeight) {
+                size = resolvedHeight;
+            }
+        }
+        return size;
+    }
+
     /** Convert dp value to pixels. */
-    private static float convertDpToPixel(Context context, float dp){
+    private static float convertDpToPixel(Context context, float dp) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
-        float px = dp * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+        float px = dp * ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
         return px;
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+    protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setOutlineProvider(new CircularOutline(w, h));
+            setOutlineProvider(new CircularOutline(width, height));
         }
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (radius == 0) radius = getWidth() / 2;
+        if (radius == 0) {
+            radius = getWidth() / 2;
+        }
 
         float left = (getWidth() / 2) - radius;
         float right = (getWidth() / 2) + radius;
@@ -361,8 +402,8 @@ public class ProgressButton extends View {
         canvas.drawCircle(getWidth() / 2, getWidth() / 2, radius - strokeWidth, circlePaint);
 
         if (icon != null) {
-            iconRect.set(0, 0, (int)radius, (int)radius);
-            iconRect.offset((getWidth() - (int)radius) / 2, (getHeight() - (int)radius) / 2);
+            iconRect.set(0, 0, (int) radius, (int) radius);
+            iconRect.offset((getWidth() - (int) radius) / 2, (getHeight() - (int) radius) / 2);
             icon.setBounds(iconRect);
             icon.draw(canvas);
         }
@@ -376,9 +417,8 @@ public class ProgressButton extends View {
      */
     private void setProgressStart(float progress, float startDegrees) {
         this.progress = progress;
-        this.startDegrees = startDegrees;
         this.startingPoint = startDegrees;
-        degrees = 360 * progress / maxProgress;
+        degrees = MAX_DEGREES * progress / maxProgress;
         invalidate();
     }
 
@@ -408,17 +448,17 @@ public class ProgressButton extends View {
         if (indeterminate) {
             if (progress >= maxProgress) {
                 reverse = true;
-                progress = maxProgress;
                 startingPoint = startDegrees;
+                progress = maxProgress;
             } else if (progress <= 0) {
                 reverse = false;
-                progress = 0;
                 startingPoint = startDegrees;
+                progress = 0;
             }
             if (reverse) {
-                float degrees1 = 360 * progress / maxProgress;
+                float degrees1 = MAX_DEGREES * progress / maxProgress;
                 progress -= animationStep;
-                float degrees2 = 360 * progress / maxProgress;
+                float degrees2 = MAX_DEGREES * progress / maxProgress;
                 float diff = degrees1 - degrees2;
                 startingPoint += diff;
             } else {

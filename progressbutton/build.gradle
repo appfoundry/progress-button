@@ -1,4 +1,7 @@
 apply plugin: 'com.android.library'
+apply plugin: 'pmd'
+apply plugin: 'findbugs'
+apply plugin: 'checkstyle'
 
 ext {
     bintrayRepo = 'maven'
@@ -13,7 +16,7 @@ ext {
     siteUrl = 'https://github.com/appfoundry/progress-button'
     gitUrl = 'https://github.com/appfoundry/progress-button.git'
 
-    libraryVersion = '0.9.1'
+    libraryVersion = '0.9.2'
 
     developerId = 'appfoundry'
     developerName = 'AppFoundry'
@@ -32,7 +35,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
-        versionName "0.9.1"
+        versionName "0.9.2"
     }
     buildTypes {
         release {
@@ -52,9 +55,9 @@ apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
 
 
-apply plugin: 'pmd'
-
 check.dependsOn 'pmd'
+check.dependsOn 'findbugs'
+check.dependsOn 'checkstyle'
 
 task pmd(type: Pmd) {
 
@@ -87,11 +90,6 @@ task pmd(type: Pmd) {
     }
 }
 
-
-apply plugin: 'findbugs'
-
-check.dependsOn 'findbugs'
-
 task findbugs(type: FindBugs) {
 
     description 'Generate FindBugs reports for this build'
@@ -111,7 +109,7 @@ task findbugs(type: FindBugs) {
     exclude '**/gen/**'   // include / exclude folders and files.
 
     //Define exclude config file
-    //excludeFilter = file("${rootProject.projectDir}/gradle/config/findbugs/exclude.xml")
+    excludeFilter = file("${rootProject.projectDir}/gradle/config/findbugs/exclude.xml")
 
     //IMPORTANT: FINDBUGS CAN ONLY GENERATE 1 REPORT. XML OR HTML!! AND PATH MUST BE DEFINED!!
     reports {
@@ -122,4 +120,24 @@ task findbugs(type: FindBugs) {
     }
 
     classpath = files()
+}
+
+task checkstyle(type: Checkstyle) {
+
+    description "Generate Checkstyle reports for this build"     //Add description to task
+
+    ignoreFailures true
+
+    configFile file("${rootProject.projectDir}/gradle/config/checkstyle/checkstyle.xml")
+
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**', '**/test/**'
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    classpath = files(file("${project.rootDir}/app/build/intermediates/classes"))
 }

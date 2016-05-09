@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         progressButton.setIndeterminate(true);
         progressButton.setAnimationStep(3);
         progressButton.setAnimationDelay(0);
+        progressButton.setStartDegrees(270);
 
         progressButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
