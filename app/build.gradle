@@ -6,6 +6,7 @@ android {
     enforceUniquePackageName = false
 
     defaultConfig {
+        applicationId "be.appfoundry.progressbutton.example"
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
@@ -38,5 +39,6 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.0.1'
     compile 'io.reactivex:rxjava:1.0.14'
 
-    compile 'be.appfoundry.progressbuttonlibrary:progressbutton:0.9.2'
+    compile project(':progressbutton')
+    //compile 'be.appfoundry.progressbuttonlibrary:progressbutton:0.9.2'
 }

@@ -1,4 +1,4 @@
-package be.appfoundry.progressbutton;
+package be.appfoundry.progressbutton.example;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.view.View;
 
 import java.util.concurrent.TimeUnit;
 
+import be.appfoundry.progressbutton.ProgressButton;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
@@ -18,8 +19,10 @@ import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Bind(R.id.progressButton) ProgressButton progressButton;
-    @Bind(R.id.progressButton2) ProgressButton progressButton2;
+    @Bind(R.id.progressButton)
+    ProgressButton progressButton;
+    @Bind(R.id.progressButton2)
+    ProgressButton progressButton2;
 
     private float progress;
     private Observable<Long> interval;
