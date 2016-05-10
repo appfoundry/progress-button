@@ -46,12 +46,16 @@ import be.appfoundry.progressbutton.util.CircularOutline;
  */
 public class ProgressButton extends View {
 
-    private static final float DEFAULT_MAX_PROGRESS = 100;
+    private static final float DEFAULT_MAX_PROGRESS = 100f;
     private static final float DEFAULT_ANIMATION_STEP = 1.0f;
+    private static final float DEFAULT_STROKE_WIDTH = 20f;
     private static final int DEFAULT_START_DEGREES = 270;
     private static final int DEFAULT_ANIMATION_DELAY = 0;
     private static final int MAX_DEGREES = 360;
     private static final int MIN_SIZE = 48;
+    private static final int DEFAULT_COLOR_PRIMARY = 0xFFFFFFFF;
+    private static final int DEFAULT_COLOR_PRIMARY_DARK = 0x33000000;
+    private static final int DEFAULT_COLOR_ACCENT = 0xFF000000;
 
     /**
      * The background color of the button.
@@ -138,6 +142,18 @@ public class ProgressButton extends View {
      * The rectangle for drawing the icon.
      */
     Rect iconRect = new Rect();
+    /**
+     * The rectangle for drawing the icon.
+     */
+    private int colorPrimary = DEFAULT_COLOR_PRIMARY;
+    /**
+     * The rectangle for drawing the icon.
+     */
+    private int colorPrimaryDark = DEFAULT_COLOR_PRIMARY_DARK;
+    /**
+     * The rectangle for drawing the icon.
+     */
+    private int colorAccent = DEFAULT_COLOR_ACCENT;
 
 
     public ProgressButton(Context context) {
@@ -173,29 +189,14 @@ public class ProgressButton extends View {
         strokePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
         Resources.Theme theme = context.getTheme();
-
         TypedArray attr = context.getTheme()
                 .obtainStyledAttributes(attrs, R.styleable.ProgressButton, 0, 0);
         TypedValue value = new TypedValue();
 
-        int colorPrimary = 0xFFFFFFFF;
-        int colorPrimaryDark = 0x33000000;
-        int colorAccent = 0xFF000000;
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            theme.resolveAttribute(android.R.attr.colorPrimary, value, true);
-            colorPrimary = value.data;
-            theme.resolveAttribute(android.R.attr.colorPrimaryDark, value, true);
-            colorPrimaryDark = value.data;
-            theme.resolveAttribute(android.R.attr.colorAccent, value, true);
-            colorAccent = value.data;
+            initColorsLollipop(theme, value);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            theme.resolveAttribute(android.support.v7.appcompat.R.attr.colorPrimary, value, true);
-            colorPrimary = value.data;
-            theme.resolveAttribute(android.support.v7.appcompat.R.attr.colorPrimaryDark, value, true);
-            colorPrimaryDark = value.data;
-            theme.resolveAttribute(android.support.v7.appcompat.R.attr.colorAccent, value, true);
-            colorAccent = value.data;
+            initColorsJellyBean(theme, value);
         }
 
         try {
@@ -205,12 +206,38 @@ public class ProgressButton extends View {
             strokePaint.setColor(strokeColor);
             progressColor = attr.getColor(R.styleable.ProgressButton_progressColor, colorAccent);
             progressPaint.setColor(progressColor);
-            strokeWidth = attr.getDimension(R.styleable.ProgressButton_strokeWidth, 20f);
+            strokeWidth = attr.getDimension(
+                    R.styleable.ProgressButton_strokeWidth,
+                    DEFAULT_STROKE_WIDTH
+            );
             indeterminate = attr.getBoolean(R.styleable.ProgressButton_indeterminate, true);
             icon = attr.getDrawable(R.styleable.ProgressButton_progressIcon);
         } finally {
             attr.recycle();
         }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void initColorsLollipop(Resources.Theme theme, TypedValue value) {
+        theme.resolveAttribute(android.R.attr.colorPrimary, value, true);
+        colorPrimary = value.data;
+        theme.resolveAttribute(android.R.attr.colorPrimaryDark, value, true);
+        colorPrimaryDark = value.data;
+        theme.resolveAttribute(android.R.attr.colorAccent, value, true);
+        colorAccent = value.data;
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private void initColorsJellyBean(Resources.Theme theme, TypedValue value) {
+        theme.resolveAttribute(android.support.v7.appcompat.R.attr.colorPrimary, value, true);
+        colorPrimary = value.data;
+        theme.resolveAttribute(
+                android.support.v7.appcompat.R.attr.colorPrimaryDark,
+                value,
+                true);
+        colorPrimaryDark = value.data;
+        theme.resolveAttribute(android.support.v7.appcompat.R.attr.colorAccent, value, true);
+        colorAccent = value.data;
     }
 
     /**
@@ -425,7 +452,11 @@ public class ProgressButton extends View {
     /**
      * Calculate the size of the progressbutton
      */
-    private int calculateSize(int resolvedWidth, int resolvedHeight, int width, int height) {
+    private int calculateSize(
+            final int resolvedWidth,
+            final int resolvedHeight,
+            final int width,
+            final int height) {
         int size;
 
         if (radius > 0) {
@@ -465,7 +496,11 @@ public class ProgressButton extends View {
     /**
      * Calculate the default size of the progressbutton
      */
-    private int calculateDefaultSize(int resolvedWidth, int resolvedHeight, int width, int height) {
+    private int calculateDefaultSize(
+            final int resolvedWidth,
+            final int resolvedHeight,
+            final int width,
+            final int height) {
         int size;
         if (resolvedHeight == 0) {
             size = width;

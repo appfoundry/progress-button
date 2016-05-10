@@ -6,7 +6,7 @@ A circular progress button for Android that you can use to show indeterminate of
 
 ## Features
 
-* Android Min SDK: 16
+* Android Min SDK: 9
 * Indeterminate and determinate progress
 * Customizable backgroundcolor, strokecolor and progresscolor
 * Customizable sizes: radius, strokeWidth
@@ -18,7 +18,7 @@ A circular progress button for Android that you can use to show indeterminate of
 Gradle:
 ```groovy
 dependencies {
-    compile 'be.appfoundry.progressbuttonlibrary.progress-button:0.9.2'
+    compile 'be.appfoundry.progressbuttonlibrary.progress-button:0.9.3'
 }
 ```
 
