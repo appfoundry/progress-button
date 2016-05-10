@@ -18,7 +18,7 @@ A circular progress button for Android that you can use to show indeterminate of
 Gradle:
 ```groovy
 dependencies {
-    compile 'be.appfoundry.progressbuttonlibrary.progress-button:0.9.1'
+    compile 'be.appfoundry.progressbuttonlibrary.progress-button:0.9.2'
 }
 ```
 
